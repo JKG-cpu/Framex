@@ -3,7 +3,7 @@
 This is a python module that utilizes pygame-ce. It will just make creating quick test windows a lot easier + you will be able to use it just like a normal pygame window!
 
 ```
-pip install framex
+pip install framex-ce
 ```
 
 ## Example Uses
