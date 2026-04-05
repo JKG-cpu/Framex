@@ -1,4 +1,19 @@
-from .frame import Framex
-from .objects import create_object, TopDownEntity
+"""
+Framex/__init__.py
+==================
+Public API entry point for the Framex package.
 
-__all__ = ["Framex", "create_object", "TopDownEntity"]
+Defines what users can import via `from Framex import ...`.
+Re-exports the main classes and functions from internal modules
+so users don't need to know the internal file structure.
+
+Expected exports:
+    - Framex          : Main class (composes window, loop, groups, debug)
+    - create_object   : Factory for quick (surface, rect) pairs
+    - TopDownEntity   : Pre-built dynamic entity with movement
+    - Entity          : Base sprite class
+    - StaticEntity    : Non-moving collision entity (walls, floors)
+    - FramexGroup     : Sprite group with static/dynamic separation
+    - DebugOverlay    : Hitbox + FPS debug rendering
+    - KEYMAPS         : Default keymap presets (WASD, ARROW)
+"""

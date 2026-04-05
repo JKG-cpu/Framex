@@ -1,0 +1,87 @@
+Framex Build Guide
+==================
+
+Build Order
+-----------
+
+Phase 1 — Foundation (no dependencies)
+1. config.py
+   - Define KEYMAPS (WASD, ARROW presets as dicts)
+   - Define DEFAULTS (entity size, speed, window size)
+   - Shared constants used across all modules
+
+2. window.py
+   - FramexWindow class: wraps pygame.display.set_mode
+   - Methods: clear(), flip(), create_surface()
+   - Manages background color, screen surface, window title
+
+Phase 2 — Core Loop (depends on: window)
+3. loop.py
+   - FramexLoop class: owns pygame.time.Clock
+   - tick() calculates and stores self.dt in seconds
+   - poll_events() handles QUIT, returns event list
+   - run(update_fn, draw_fn, event_fn) drives the main loop
+   - Entities read loop.dt instead of calculating it themselves
+
+Phase 3 — Groups & Factories (depends on: nothing new)
+4. groups.py
+   - FramexGroup class: manages static + dynamic sprite groups
+   - add_static(), add_dynamic(), remove()
+   - draw(surface): batch draws all sprites (uses LayeredUpdates if enabled)
+   - update(dt): only updates dynamic sprites (static ones skip update)
+   - Optional LayeredUpdates for Z-order rendering
+
+5. factories.py
+   - create_object(): returns (surface, rect) tuple
+   - Handles surface creation with convert_alpha() when no image given
+   - Supports centering, size, srcalpha flag
+
+Phase 4 — Collisions (depends on: groups)
+6. collisions.py
+   - resolve_collision(sprite, static_group, axis): axis-separated resolution
+   - Edge snapping: player.right = obstacle.left (if moving right), no center-snapping
+   - Two-phase movement: Move X -> Check X -> Move Y -> Check Y
+   - Prevents diagonal clipping bug
+   - Collision callback hooks (on_hit) for custom logic
+
+Phase 5 — Entities (depends on: collisions, groups, config, factories)
+7. entities.py
+   - Entity: base class inheriting from pygame.sprite.Sprite
+   - StaticEntity: non-moving, no update/input, collision-only (walls, floors)
+   - TopDownEntity: dynamic entity with movement
+     - Dictionary-based keymap: {"up": pygame.K_w, ...}
+     - Delta-time movement using loop.dt
+     - Screen boundary clamping (optional)
+     - Calls resolve_collision() during move()
+
+Phase 6 — Debug (depends on: loop, groups, entities)
+8. debug.py
+   - DebugOverlay class: hitbox outlines, FPS counter, collision logging
+   - draw_hitboxes(surface, group): draws rect outlines on all sprites
+   - draw_fps(surface, loop): renders clock.get_fps() in corner
+   - Collision callback hooks: fires on_hit() for custom logic
+   - Opt-in via Framex(debug=True) flag
+   - Toggle hitboxes with a key press during runtime
+
+Phase 7 — Wiring (depends on: everything)
+9. __init__.py
+   - Update exports to match what was actually built
+   - Re-exports: FramexWindow, FramexLoop, FramexGroup, Entity, StaticEntity,
+     TopDownEntity, create_object, resolve_collision, DebugOverlay, KEYMAPS, DEFAULTS
+
+10. main.py
+    - Framex class: composes FramexWindow + FramexLoop + FramexGroup + DebugOverlay
+    - setup() helper: creates window, loop, groups in one call
+    - run() method: starts the game loop with proper draw/update hooks
+    - debug flag: enables DebugOverlay when True
+
+Why This Order
+--------------
+- config.py first because every module imports defaults
+- window.py before loop.py because loop needs a screen to draw to
+- loop.py before entities because entities need loop.dt
+- groups.py before collisions because collision checks iterate static_group
+- collisions.py before entities because entities call resolve_collision() during move()
+- entities.py before debug because debug observes entity state
+- debug.py last because it observes everything but nothing depends on it
+- __init__.py and main.py last because they wire together completed modules
