@@ -40,6 +40,12 @@ KEYS = {
         "jump": pygame.K_SPACE
     }
 }
+VALUES = {
+    "up": (0, -1),
+    "down": (0, 1),
+    "left": (-1, 0),
+    "right": (1, 0)
+}
 
 KEY_MODE = "WASD"
 KEY_MAP = dict(KEYS[KEY_MODE])

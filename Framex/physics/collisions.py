@@ -26,7 +26,24 @@ from ..utils.imports import *
 
 class CollisionHandler:
     def resolve_collision(self, sprite, static_group, axis) -> None:
-        pass
+        for static_sprite in static_group:
+            if static_sprite.rect.colliderect(sprite.rect):
+                if axis == "X":
+                    if sprite.direction.x == -1:
+                        # Moving Left
+                        sprite.rect.left = static_sprite.rect.right
+
+                    elif sprite.direction.x == 1:
+                        # Moving Right
+                        sprite.rect.right = static_sprite.rect.left
+
+                elif axis == "Y":
+                    if sprite.direction.y == -1:
+                        # Moving Up
+                        sprite.rect.top = static_sprite.rect.bottom
+                    
+                    elif sprite.direction.y == 1:
+                        sprite.rect.bottom = static_sprite.rect.top
 
     def resolve_collisions(self, sprite, static_group) -> None:
         self.resolve_collision(
@@ -34,9 +51,11 @@ class CollisionHandler:
             static_group = static_group,
             axis = "X"
         )
+        sprite.move("X")
 
         self.resolve_collision(
             sprite = sprite,
             static_group = static_group,
             axis = "Y"
         )
+        sprite.move("Y")
