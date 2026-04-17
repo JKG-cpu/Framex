@@ -17,3 +17,7 @@ Expected exports:
     - DebugOverlay    : Hitbox + FPS debug rendering
     - KEYMAPS         : Default keymap presets (WASD, ARROW)
 """
+from .core import *
+from .entities import *
+from .physics import *
+from .utils import *

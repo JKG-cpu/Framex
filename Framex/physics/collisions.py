@@ -25,6 +25,19 @@ Used by:
 from ..utils.imports import *
 
 class CollisionHandler:
+    def __init__(self) -> None:
+        self.on_hit_functions = []
+
+    def add_on_hit(self, on_hit, add_self: bool = False) -> None:
+        """Set a function to run when a sprite collides with another sprite.
+        **MUST BE A CALLABLE**"""
+        self.on_hit_functions.append(on_hit if not add_self else lambda : on_hit(self))
+
+    def on_hit(self) -> None:
+        for func in self.on_hit_functions:
+            if callable(func):
+                func()
+
     def resolve_collision(self, sprite, static_group, axis) -> None:
         for static_sprite in static_group:
             if static_sprite.rect.colliderect(sprite.rect):
@@ -44,6 +57,8 @@ class CollisionHandler:
                     
                     elif sprite.direction.y == 1:
                         sprite.rect.bottom = static_sprite.rect.top
+
+            self.on_hit()
 
     def resolve_collisions(self, sprite, static_group) -> None:
         self.resolve_collision(

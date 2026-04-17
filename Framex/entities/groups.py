@@ -41,6 +41,8 @@ class Group(pygame.sprite.Group):
         filtered_sprites = self.sprites().sort(key = lambda spr: spr.rect.centery)
         for sprite in filtered_sprites:
             screen.blit(sprite.image, sprite.rect)
+            if sprite.draw_hitbox:
+                pygame.draw.rect(screen, "Red", sprite.rect, 2)
 
     def update(self, dt: float) -> None:
         for sprite in self:

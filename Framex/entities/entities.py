@@ -58,6 +58,15 @@ class Entity(pygame.sprite.Sprite):
 
         self.block = False
         self.direction = vector()
+        self.draw_hitbox = False
+    
+    def add_on_hit_callback(self, on_hit, add_self: bool = False) -> None:
+        """Add a callback for when this sprite collides with something."""
+        self.collisionHandler.add_on_hit(on_hit, add_self)
+
+    def toggle_draw_hitbox(self) -> None:
+        """Toggles whether or not to draw the sprite's hitbox"""
+        self.draw_hitbox = True if not self.draw_hitbox else False
 
     def move(self, dt: float) -> None:
         self.rect.centerx += self.direction.x * DEFAULT_ENTITY_SPEED * dt
