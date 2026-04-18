@@ -21,7 +21,7 @@ Used by:
 from ..utils.imports import *
 from ..utils.config import *
 
-class Frame:
+class Window:
     def __init__(
             self,
             caption: str = "Framex Window",

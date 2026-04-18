@@ -21,7 +21,7 @@ Used by:
     - debug.py (reads loop.clock.get_fps() for FPS overlay)
 """
 from ..utils.imports import *
-from .window import Frame
+from .window import Window
 
 class Loop:
     def __init__(
@@ -31,7 +31,7 @@ class Loop:
             icon: pygame.Surface | None = None,
             frame_rate: int | None = 60
         ):
-        self.screen = Frame(
+        self.screen = Window(
             caption = caption,
             background_color = background_color,
             icon = icon
@@ -42,8 +42,10 @@ class Loop:
         self.dt = 0
     
     def get_dt(self) -> float: return self.dt
-    def tick(self) -> None: self.dt = self.clock.tick(self.fps) / 1000 if self.fps else self.dt = self.clock.tick() / 1000
+    def tick(self) -> None: 
+        self.dt = self.clock.tick(self.fps) / 1000
     def poll_events(self) -> list[pygame.Event]: return pygame.event.get()
+    def get_window(self) -> pygame.Surface: return self.screen
 
     def run(self, update_fn, draw_fn, event_fn, quit_key: pygame.key = pygame.K_q) -> None:
         """

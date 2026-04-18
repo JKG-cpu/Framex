@@ -1,23 +1,3 @@
-"""
-Framex/config.py
-================
-Shared constants, defaults, and configuration values.
-
-Centralizes all magic numbers and default settings so they can be
-tweaked in one place instead of scattered across modules.
-
-Responsibilities:
-    - KEYMAPS: Default keymap presets (WASD, ARROW) as dictionaries
-      mapping actions to pygame key constants
-    - DEFAULTS: Default values for entity size, speed, colors, etc.
-    - Movement type strings ("WASD", "ARROW")
-    - Any other shared constants used across modules
-
-Used by:
-    - entities.py (default keymaps when none provided)
-    - main.py (default window size, colors, etc.)
-    - factories.py (default object size)
-"""
 from .imports import *
 
 DEFAULT_WINDOW_SIZE = (750, 500)

@@ -1,2 +1,2 @@
 from .loop import Loop
-from .window import Frame
+from .window import Window
