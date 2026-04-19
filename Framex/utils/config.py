@@ -31,32 +31,17 @@ KEY_MODE = "WASD"
 KEY_MAP = dict(KEYS[KEY_MODE])
 
 def get_keys() -> list[str]:
-    """Get current keys available for switching"""
+     
     return list(KEY_MAP.keys())
 
 def custom_keys(new_keys: dict) -> None:
-    """
-    Assigns custom keys to KEY_MAP
-
-    **WILL NOT** add new keys *(in development)*
-
-    Args:
-        new_keys: dict of new keys
-    """
+     
     for key in new_keys.keys():
         if key in KEY_MAP.keys():
             KEY_MAP[key] = new_keys[key]
 
 def set_key_mode(mode: str) -> None:
-    """
-    Switch the active key mode.
-    
-    Args:
-        mode: One of the keys in KEYS (e.g. "WASD", "ARROW")
-    
-    Raises:
-        ValueError: If mode is not a recognised preset
-    """
+     
     if mode not in KEYS:
         raise ValueError(f"Unknown key mode '{mode}'. Available: {list(KEYS.keys())}")
     
@@ -66,7 +51,7 @@ def set_key_mode(mode: str) -> None:
     KEY_MODE = mode
 
 def set_default_window_size(new_size: tuple[int, int]) -> None:
-    """Resets window size with tuple[int, int]"""
+     
     global DEFAULT_WINDOW_SIZE
 
     if not (
@@ -79,7 +64,7 @@ def set_default_window_size(new_size: tuple[int, int]) -> None:
     DEFAULT_WINDOW_SIZE = new_size
     
 def set_default_entity_size(new_size: tuple[int, int]) -> None:
-    """Resets entity size with tuple[int, int]"""
+     
     global DEFAULT_ENTITY_SIZE
 
     if not (

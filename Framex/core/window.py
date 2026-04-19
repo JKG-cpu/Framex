@@ -1,23 +1,3 @@
-"""
-Framex/window.py
-================
-Handles all pygame display and surface operations.
-
-This module wraps pygame.display in a clean interface so users
-don't need to call pygame directly for basic window operations.
-
-Responsibilities:
-    - Creating the display surface (pygame.display.set_mode)
-    - Setting window title and icon
-    - Creating surfaces with proper convert_alpha() handling
-    - Managing background color and screen clearing
-    - Exposing the screen surface for external drawing
-
-Used by:
-    - FramexLoop (clears screen each frame, draws to surface)
-    - entities.py (gets screen dimensions for boundary clamping)
-    - debug.py (renders overlay onto the screen surface)
-"""
 from ..utils.imports import *
 from ..utils.config import *
 

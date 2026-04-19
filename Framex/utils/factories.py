@@ -1,21 +1,4 @@
-"""
-Framex/factories.py
-===================
-Factory functions for quick object creation.
-
-Provides helper functions that return ready-to-use (surface, rect)
-pairs for prototyping without manually creating surfaces and rects.
-
-Responsibilities:
-    - create_object(): Returns (surface, rect) from optional image,
-      position, size, centering flag, and alpha flag
-    - Handles surface creation with convert_alpha() when no image given
-    - Supports centering objects at a given position
-
-Used by:
-    - main.py (quick prototyping without custom assets)
-    - entities.py (TopDownEntity uses this for default rendering)
-"""
+ 
 from .imports import *
 from .config import *
 

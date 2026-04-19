@@ -35,7 +35,7 @@ class Frame:
             caption = caption,
             background_color = background_color,
             icon = icon,
-            fps = fps
+            frame_rate = fps
         )
         self.window = self.loop.get_window()
 
