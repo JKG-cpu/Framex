@@ -16,7 +16,9 @@ class Entity(pygame.sprite.Sprite):
     ) -> None:
         super().__init__()
 
-        self.collisionHandler = CollisionHandler()
+        self.collisionHandler = CollisionHandler(
+            self.groups()
+        )
 
         self.image, self.rect = factory.create_object(
             image = image,
@@ -31,19 +33,17 @@ class Entity(pygame.sprite.Sprite):
         self.draw_hitbox = False
     
     def add_on_hit_callback(self, on_hit, add_self: bool = False) -> None:
-         
         self.collisionHandler.add_on_hit(on_hit, add_self)
 
     def toggle_draw_hitbox(self) -> None:
-         
         self.draw_hitbox = True if not self.draw_hitbox else False
 
     def move(self, dt: float) -> None:
         self.rect.centerx += self.direction.x * DEFAULT_ENTITY_SPEED * dt
-        self.collisionHandler.resolve_collision("X")
+        self.collisionHandler.resolve_collision(self, "X")
     
         self.rect.centery += self.direction.y * DEFAULT_ENTITY_SPEED * dt
-        self.collisionHandler.resolve_collision("Y")
+        self.collisionHandler.resolve_collision(self, "Y")
 
     def update(self, dt: float) -> None:
         self.move(dt)
@@ -72,7 +72,12 @@ class DynamicEntity(Entity):
         super().__init__(image, position, center, alpha, color)
         self.player_controlled = player_controlled
 
-    def custom_movement(self) -> None:
+    def _custom_movement(self) -> None:
+        """To Be Added
+        Gonna work somewhat like this
+
+        sprite.custom_movement(type: str)
+        """
         pass
     
     def input(self) -> None:

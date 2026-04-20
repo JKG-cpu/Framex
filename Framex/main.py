@@ -68,6 +68,16 @@ class Frame:
         else:
             raise TypeError("Must pass in a function for event_fn")
 
+    def add_sprite(self, sprite: StaticEntity | DynamicEntity) -> None:
+        if isinstance(sprite, StaticEntity):
+            self.groups.add_static(sprite)
+
+        elif isinstance(sprite, DynamicEntity):
+            self.groups.add_dynamic(sprite)
+
+        else:
+            raise ValueError("Please pass in a Static or Dynamic Sprite Object.")
+
     def run(self, debug: bool = False) -> None:
         self.loop.run(
             update_fn = self.update_fn,

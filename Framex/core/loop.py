@@ -1,4 +1,3 @@
- 
 from ..utils.imports import *
 from .window import Window
 
@@ -32,12 +31,16 @@ class Loop:
             events = self.poll_events()
 
             for event in events:
-                if event.type == pygame.key.get_just_pressed():
-                    if event.key == quit_key or event.key == pygame.K_ESCAPE:
-                        print("Quitting")
-                        break
+                if event.type == pygame.QUIT:
+                    exit()
+
+                if event.type == pygame.KEYDOWN:
+                    if event.key == quit_key:
+                        exit()
 
             event_fn(events)
             update_fn(self.dt)
             draw_fn(self.screen)
             self.screen.update()
+
+    

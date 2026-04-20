@@ -25,8 +25,9 @@ Used by:
 from ..utils.imports import *
 
 class CollisionHandler:
-    def __init__(self) -> None:
+    def __init__(self, static_group: pygame.sprite.Group) -> None:
         self.on_hit_functions = []
+        self.static_sprites = static_group
 
     def add_on_hit(self, on_hit, add_self: bool = False) -> None:
         """Set a function to run when a sprite collides with another sprite.
@@ -38,8 +39,8 @@ class CollisionHandler:
             if callable(func):
                 func()
 
-    def resolve_collision(self, sprite, static_group, axis) -> None:
-        for static_sprite in static_group:
+    def resolve_collision(self, sprite, axis) -> None:
+        for static_sprite in self.static_sprites:
             if static_sprite.rect.colliderect(sprite.rect):
                 if axis == "X":
                     if sprite.direction.x == -1:
