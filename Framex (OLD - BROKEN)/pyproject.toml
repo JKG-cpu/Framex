@@ -1,9 +1,9 @@
 [project]
 name = "framex"
-version = "0.1.0"
+version = "0.1.1"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.10"
 dependencies = [
     "pygame-ce>=2.5.7",
 ]
