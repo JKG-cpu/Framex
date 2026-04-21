@@ -1,5 +1,6 @@
 from ..utils.imports import *
 from .window import Window
+from ..entities import Groups
 
 class Loop:
     def __init__(
@@ -17,19 +18,35 @@ class Loop:
 
         self.fps = frame_rate
         self.clock = pygame.time.Clock()
+        self.dt = 0
 
     def get_window(self) -> pygame.Surface: return self.window
     def get_events(self) -> list[pygame.Event]: return pygame.event.get()
+    def get_dt(self) -> float | int: return self.dt
 
     def quit(self) -> None:
         """Quitting pygame"""
         pygame.quit()
         exit()
 
-    def run(self, quit_key = None) -> None:
+    def run(self, draw_func: Callable | None = None, event_func: Callable | None = None, update_func: Callable | None = None, quit_key = None) -> None:
         """Run the gameloop"""
+        if draw_func:
+            if (not callable(draw_func)) or not (len(signature(draw_func).parameters) == 1):
+                raise TypeError("draw_func must be a function or method with a parameter for the window!")
+
+        if event_func:
+            if (not callable(event_func)) or not (len(signature(event_func).parameters) == 1):
+                raise TypeError("event_func must be a function or a method with a parameter for events!")
+
+        if update_func:
+            if (not callable(update_func)) or not (len(signature(update_func).parameters) == 1):
+                raise TypeError("update_func must be a function or method with a parameter for delta time!")
+
         while True:
             self.window.clear()
+
+            self.dt = self.clock.tick(self.fps) / 1000 if self.fps else self.clock.tick() / 1000
 
             events = self.get_events()
 
@@ -41,4 +58,9 @@ class Loop:
                     if event.key == quit_key:
                         self.quit()
 
+            if draw_func: draw_func(self.window.get_screen())
+            if update_func: update_func(self.dt)
+            if event_func: event_func(events)
+
             self.window.update()
+

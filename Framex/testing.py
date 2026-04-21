@@ -1,7 +1,8 @@
-import pygame
+import inspect
 
-from src.frame import Loop
+def my_func(a):
+    pass
 
-l = Loop()
-
-l.run(pygame.K_q)
+sig = inspect.signature(my_func)
+has_one_param = len(sig.parameters) == 1
+print(has_one_param)
