@@ -1,5 +1,6 @@
 from ..utils.imports import *
 from ..utils import *
+from .groups import Groups
 
 __all__ = [
     "Entity",
@@ -11,6 +12,7 @@ class Entity(pygame.sprite.Sprite):
     def __init__(
         self,
         position: tuple[int, int],
+        group_ref: Groups | None = None,
         image: str | pygame.Surface | None = None,
         center: bool = True,
         alpha: bool = True,
@@ -18,6 +20,8 @@ class Entity(pygame.sprite.Sprite):
         speed: int = 250
     ) -> None:
         super().__init__()
+
+        self.group_ref = group_ref
 
         self.image, self.rect = create_object(
             position = position,
@@ -34,30 +38,57 @@ class Entity(pygame.sprite.Sprite):
 
     def toggle_drawhitbox(self) -> None: self.draw_hitbox = False if self.draw_hitbox else True
     def update(self, dt: float | int) -> None: self.move(dt)
+    
+    def check_collisions(self, axis: str) -> None:
+        if self.group_ref is None:
+            return
+
+        for sprite in self.group_ref.static_sprites.sprites() + self.group_ref.dynamic_sprites.sprites():
+            if sprite is self:
+                continue
+
+            if self.rect.colliderect(sprite.rect):
+                if axis == "x":
+                    if self.direction.x < 0:
+                        self.rect.left = sprite.rect.right
+
+                    elif self.direction.x > 0:
+                        self.rect.right = sprite.rect.left
+
+                elif axis == "y":
+                    if self.direction.y < 0:
+                        self.rect.top = sprite.rect.bottom
+                    
+                    elif self.direction.y > 0:
+                        self.rect.bottom = sprite.rect.top
 
     def move(self, dt: float | int):
         # X
         self.rect.centerx += self.speed * dt * self.direction.x
+        self.check_collisions("x")
 
         # Y
         self.rect.centery += self.speed * dt * self.direction.y
+        self.check_collisions("y")
 
 class StaticEntity(Entity):
     def __init__(
             self,
             position: tuple[int, int],
+            group_ref: pygame.sprite.Group | None = None,
             image: str | pygame.Surface | None = None,
             center: bool = True,
             alpha: bool = True,
             color: tuple[int, int, int] | tuple[int, int, int, int] | None = None,
             speed: int = 250
         ):
-        super().__init__(position, image, center, alpha, color, speed)
+        super().__init__(position, group_ref, image, center, alpha, color, speed)
 
 class DynamicEntity(Entity):
     def __init__(
             self,
             position: tuple[int, int],
+            group_ref: pygame.sprite.Group | None = None,
             image: str | pygame.Surface | None = None,
             center: bool = True,
             alpha: bool = True,
@@ -65,7 +96,7 @@ class DynamicEntity(Entity):
             color: tuple[int, int, int] | tuple[int, int, int, int] | None = None,
             speed: int = 250
         ):
-        super().__init__(position, image, center, alpha, color, speed)
+        super().__init__(position, group_ref, image, center, alpha, color, speed)
         self.player_controlled = player_controlled
     
     def input(self):

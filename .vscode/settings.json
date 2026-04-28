@@ -10,7 +10,8 @@
         "Framex/.python-version": true,
         "LICENSE": true,
         "Framex/uv.lock": true,
-        "Framex/README.md": true
+        "Framex/README.md": true,
+        ".gitignore": true
     },
     "hide-files.files": [
         ".github",
@@ -18,7 +19,8 @@
         "Framex/.python-version",
         "LICENSE",
         "Framex/uv.lock",
-        "Framex/README.md"
+        "Framex/README.md",
+        ".gitignore"
     ],
     "python.REPL.enableREPLSmartSend": false
 }
