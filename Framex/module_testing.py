@@ -29,7 +29,7 @@ for _ in range(10):
 groups.add_dynamic(dynamic_sprite)
 
 def draw_func(screen: pygame.Surface) -> None:
-    groups.draw(screen)
+    groups.draw(screen, dynamic_sprite)
 
 def update_func(dt: float | int) -> None:
     groups.update(dt)
