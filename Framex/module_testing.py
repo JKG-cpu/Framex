@@ -1,6 +1,6 @@
 import pygame
 
-from src.frame import Loop
+from src.frame import Loop, Camera
 from src.entities import *
 
 l = Loop()
@@ -28,8 +28,8 @@ for _ in range(10):
 
 groups.add_dynamic(dynamic_sprite)
 
-def draw_func(screen: pygame.Surface) -> None:
-    groups.draw(screen, dynamic_sprite)
+def draw_func(screen: pygame.Surface, camera) -> None:
+    groups.draw(screen, camera)
 
 def update_func(dt: float | int) -> None:
     groups.update(dt)
@@ -40,4 +40,7 @@ def event_func(events: list[pygame.Event]) -> None:
             if event.key == pygame.K_r:
                 exit()
 
-l.run(draw_func = draw_func, update_func = update_func, event_func = event_func, quit_key = pygame.K_q)
+camera = Camera("follow")
+camera.set_target(dynamic_sprite)
+
+l.run(draw_func = draw_func, update_func = update_func, event_func = event_func, camera = camera, quit_key = pygame.K_q)

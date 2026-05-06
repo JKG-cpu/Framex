@@ -1,6 +1,9 @@
+from typing import Literal
+
 from ..utils.imports import *
 from .window import Window
 from ..entities import Groups
+from .camera import Camera
 
 class Loop:
     def __init__(
@@ -8,7 +11,8 @@ class Loop:
             caption: str = "Framex Window",
             background_color: tuple[int, int, int] | tuple[int, int, int, int] = (0, 0, 0),
             icon: pygame.Surface | None = None,
-            frame_rate: int = 60
+            frame_rate: int = 60,
+            camera_type: Literal["static", "follow", "lerp", "clamp"] = "static"
         ) -> None:
         self.window = Window(
             caption = caption,
@@ -29,11 +33,11 @@ class Loop:
         pygame.quit()
         exit()
 
-    def run(self, draw_func: Callable | None = None, event_func: Callable | None = None, update_func: Callable | None = None, quit_key = None) -> None:
+    def run(self, draw_func: Callable | None = None, event_func: Callable | None = None, update_func: Callable | None = None, camera: Camera | None = None, quit_key = None) -> None:
         """Run the gameloop"""
         if draw_func:
-            if (not callable(draw_func)) or not (len(signature(draw_func).parameters) == 1):
-                raise TypeError("draw_func must be a function or method with a parameter for the window!")
+            if (not callable(draw_func)) or not (len(signature(draw_func).parameters) == 2):
+                raise TypeError("draw_func must be a function or method with a parameter for the window and camera position!")
 
         if event_func:
             if (not callable(event_func)) or not (len(signature(event_func).parameters) == 1):
@@ -58,7 +62,8 @@ class Loop:
                     if event.key == quit_key:
                         self.quit()
 
-            if draw_func: draw_func(self.window.get_screen())
+            if camera: camera.update(self.dt, self.window.get_screen())
+            if draw_func: draw_func(self.window.get_screen(), camera)
             if update_func: update_func(self.dt)
             if event_func: event_func(events)
 
