@@ -4,23 +4,8 @@
         "**/.svn": true,
         "**/.hg": true,
         "**/.DS_Store": true,
-        "**/Thumbs.db": true,
-        ".github": true,
-        ".gitattributes": true,
-        "Framex/.python-version": true,
-        "LICENSE": true,
-        "Framex/uv.lock": true,
-        "Framex/README.md": true,
-        ".gitignore": true
+        "**/Thumbs.db": true
     },
-    "hide-files.files": [
-        ".github",
-        ".gitattributes",
-        "Framex/.python-version",
-        "LICENSE",
-        "Framex/uv.lock",
-        "Framex/README.md",
-        ".gitignore"
-    ],
+    "hide-files.files": [],
     "python.REPL.enableREPLSmartSend": false
 }

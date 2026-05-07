@@ -2,7 +2,6 @@ from typing import Literal
 
 from ..utils.imports import *
 from .window import Window
-from ..entities import Groups
 from .camera import Camera
 
 class Loop:
@@ -11,13 +10,14 @@ class Loop:
             caption: str = "Framex Window",
             background_color: tuple[int, int, int] | tuple[int, int, int, int] = (0, 0, 0),
             icon: pygame.Surface | None = None,
-            frame_rate: int = 60,
-            camera_type: Literal["static", "follow", "lerp", "clamp"] = "static"
+            size: tuple[int, int] = (750, 500),
+            frame_rate: int = 60
         ) -> None:
         self.window = Window(
             caption = caption,
             background_color = background_color,
-            icon = icon
+            icon = icon,
+            size = size
         )
 
         self.fps = frame_rate

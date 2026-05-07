@@ -1,7 +1,7 @@
 [project]
-name = "framex"
-version = "0.1.0"
-description = "Add your description here"
+name = "framex-ce"
+version = "0.2.0"
+description = "This is a python module that utilizes pygame-ce. It will just make creating quick test windows a lot easier + you will be able to use it just like a normal pygame window!"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
