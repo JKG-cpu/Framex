@@ -5,7 +5,7 @@ A game engine built off of pygame-ce. Created specifically to spin up quick test
 ## Installation
 
 ```bash
-pip install framex
+pip install framex-ce
 
 # This should auto install pygame-ce, if not, run
 pip install pygame-ce
