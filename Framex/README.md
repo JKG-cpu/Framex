@@ -128,3 +128,6 @@ l.run(
     camera = camera, 
     quit_key = pygame.K_q)
 ```
+
+#### More Tutorials
+Some more tutorials will be added [here](https://github.com/JKG-cpu/Framex/tree/main/docs) soon!
